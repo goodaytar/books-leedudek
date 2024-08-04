@@ -37,7 +37,6 @@ This repository contains my code and analysis for classifying text as either wri
 - **Clustering for Test Set Selection**: Would implement agglomerative clustering to better manage the dataset split, reducing the risk of data leakage.
 - **Manual Data Inspection**: More thorough manual review of the dataset to identify and correct issues affecting performance.
 - **Code Refactoring**: Organise the code into classes such as `Load`, `Process`, `Analyse` for better modularity and maintenance.
-- **Not used GPT**: I wouldn't have used GPT to help me write a readme summary and assist with writing and organising my code.
 
 ## Detailed Project Breakdown
 
