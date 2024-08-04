@@ -18,7 +18,8 @@ This repository contains my code and analysis for classifying text as either wri
 - **Text Lengths**:There are some large outliers in text length. After adjustments, Austen's texts are slightly longer and more varied.
 
 #### Probability Distribution of Text Lengths by Austen/non-Austen
-![Probability Distribution of Text Lengths by Austen/non-Austen](image1.png)
+[Probability Distribution of Text Lengths by Austen/non-Austen](!<img width="961" alt="image" src="https://github.com/user-attachments/assets/70e4a4cc-a43a-4181-b342-f24ef5d8d691">)
+
 *The histogram and overlaid density plots show the distribution of text lengths for Austen and non-Austen classes. Austen's texts tend to be longer on average.*
 
 ### The Model
