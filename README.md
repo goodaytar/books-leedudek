@@ -1,7 +1,7 @@
 
 # Austen Text Classification
 
-This repository contains the code and analysis related to classifying text as either written by Jane Austen or not. The project involves exploratory data analysis, preprocessing, model training, and evaluation, utilizing machine learning techniques to distinguish Austen's literary style.
+This repository contains my code and analysis for classifying text as either written by Jane Austen or not.
 
 ## Contents
 
@@ -13,9 +13,9 @@ This repository contains the code and analysis related to classifying text as ei
 
 ### The Data
 
-- **Minimal Duplicates**: Few duplicate entries within the dataset.
+- **Minimal Duplicates**: Few duplicate entries in the dataset.
 - **Class Imbalance**: Significant bias towards the non-Austen class.
-- **Text Lengths**: Outliers in text length; after adjustments, Austen's texts are slightly longer and more varied.
+- **Text Lengths**:There are some large outliers in text length. After adjustments, Austen's texts are slightly longer and more varied.
 
 #### Probability Distribution of Text Lengths by Austen/non-Austen
 ![Probability Distribution of Text Lengths by Austen/non-Austen](image1.png)
