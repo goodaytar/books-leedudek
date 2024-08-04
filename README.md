@@ -29,7 +29,7 @@ This repository contains my code and analysis for classifying text as either wri
 - **Performance**: Achieved a high F1 score of 0.989 on the evaluation set, indicating possible data leakage.
 
 #### Model Training and Evaluation Metrics
-![Model ![image](https://github.com/user-attachments/assets/edb462ed-927c-4402-ac6b-68941f8bf8ad)
+[image](https://github.com/user-attachments/assets/edb462ed-927c-4402-ac6b-68941f8bf8ad)
 
 *This plot from MLFlow shows training loss, f1 and precision after each step. The super high precision and f1 has made me suspect some data leakage.*
 
