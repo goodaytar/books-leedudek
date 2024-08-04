@@ -6,10 +6,10 @@ from transformers import AdamW
 from tqdm import tqdm
 from torch import nn
 
+
 # Set up MLflow experiment
 mlflow.set_tracking_uri('http://localhost:5003')
 mlflow.set_experiment('Austen classifier')
-
 
 
 def train(model, model_name, train_loader, eval_loader, test_loader, device, num_epochs=1):
