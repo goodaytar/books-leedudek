@@ -37,6 +37,7 @@ This repository contains my code and analysis for classifying text as either wri
 - **Clustering for Test Set Selection**: Would implement agglomerative clustering to better manage the dataset split, reducing the risk of data leakage.
 - **Manual Data Inspection**: More thorough manual review of the dataset to identify and correct issues affecting performance.
 - **Code Refactoring**: Organise the code into classes such as `Load`, `Process`, `Analyse` for better modularity and maintenance.
+- **Not used GPT**: I wouldn't have used GPT to help me write a readme summary and assist with writing and organising my code.
 
 ## Detailed Project Breakdown
 
@@ -70,23 +71,21 @@ Performed in `evaluate.py`:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/austen-text-classification.git
+   git clone [https://github.com/yourusername/austen-text-classification.git](https://github.com/goodaytar/recruitment-ml-leedudek.git)
    ```
 2. **Install Dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 3. **Run Data Preprocessing**:
-   ```bash
-   python data.py
-   ```
+   Open up the notebooks/eda.ipynb file and run the cells
+   
 4. **Train the Model**:
-   ```bash
-   python train.py
-   ```
+   Open up the notebooks/train.ipynb file
 5. **Evaluate the Model**:
+   Visit the MLFlow dashboard, by first starting the server
    ```bash
-   python evaluate.py
+   mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns --host 0.0.0.0 --port 5003
    ```
 
 ## Contributing
