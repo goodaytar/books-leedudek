@@ -47,7 +47,7 @@ Handled by `data.py`, which includes:
 - **Loading**: Reads text data from a CSV file.
 - **Cleaning**: Standardises text by removing non-alphabetic characters and converting to lowercase.
 - **Tokenisation and Vectorisation**: Splits text into words and converts them to numerical data suitable for model input.
-- **Splitting**: Divides data into training and test sets with an 80-20 split.
+- **Splitting**: Divides data into training, eval and test sets with an 80-10-10 split.
 
 ### Model Training
 
