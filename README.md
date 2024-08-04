@@ -1,4 +1,3 @@
-
 # Text Analysis of Jane Austen vs. Non-Austen Texts
 
 This repository contains an exploratory data analysis (EDA) notebook focused on distinguishing between texts authored by Jane Austen and non-Austen texts. The analysis leverages a dataset of text paragraphs with labeled authorship to understand linguistic patterns and characteristics that differentiate Austen's writing style.
@@ -14,10 +13,11 @@ This repository contains an exploratory data analysis (EDA) notebook focused on 
     - [Language Analysis](#language-analysis)
         - [Text Length](#text-length)
         - [Most Frequent Terms](#most-frequent-terms)
-5. [Conclusion](#conclusion)
-6. [Usage](#usage)
-7. [Contributing](#contributing)
-8. [License](#license)
+5. [Training Implementation](#training-implementation)
+6. [Conclusion](#conclusion)
+7. [Usage](#usage)
+8. [Contributing](#contributing)
+9. [License](#license)
 
 ## Introduction
 
@@ -57,25 +57,34 @@ The analysis follows these steps:
 
 - The analysis revealed distinct vocabularies between Austen and non-Austen texts, leveraging term frequency-inverse document frequency (TF-IDF) and natural language processing tools like SpaCy.
 
-## Conclusion
+## Training Implementation
 
-The exploratory data analysis highlights significant linguistic differences between Jane Austen's writing and other authors. These insights can guide further machine learning experiments to automatically classify texts based on authorship.
+The training implementation involves using a binary classifier to distinguish between texts written by Jane Austen and other authors. The training process is tracked and logged using MLflow, which helps in monitoring model performance and saving key metrics. Below is a detailed breakdown of the training code:
 
-## Usage
+### Setup
 
-To run the analysis, clone this repository and execute the `eda.ipynb` Jupyter Notebook. Ensure you have the necessary dependencies installed, as listed in `requirements.txt`.
+- **MLflow Configuration:** The experiment is set up using MLflow to track experiments and log model parameters, metrics, and artifacts.
+- **Dependencies:** The implementation utilizes `transformers`, `torch`, and `mlflow.pytorch` for model training and evaluation.
 
-```bash
-git clone https://github.com/your-repo.git
-cd your-repo
-pip install -r requirements.txt
-jupyter notebook eda.ipynb
-```
+### Training Loop
 
-## Contributing
+1. **Initialize Model and Optimizer:**
+   - The model is trained using the AdamW optimizer with a learning rate of `5e-5`.
+   - The loss function used is `nn.BCEWithLogitsLoss` to handle binary classification.
 
-Contributions are welcome! Please fork the repository and submit a pull request with your changes. For significant changes, please open an issue first to discuss your ideas.
+2. **Training Process:**
+   - The training loop iterates over the number of specified epochs.
+   - For each batch in the training data, the model performs a forward pass to compute the loss.
+   - The backward pass updates the model weights, and metrics are logged at each step using MLflow.
+   - Evaluation metrics (accuracy, precision, recall, F1 score) are computed on the evaluation set at each step and logged to MLflow.
 
-## License
+3. **Learning Rate Scheduler:**
+   - A linear learning rate scheduler with warmup is used to adjust the learning rate throughout training, which can help stabilize training and improve performance.
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+4. **Evaluation:**
+   - After each epoch, the model is evaluated on the evaluation dataset.
+   - Confusion matrices are saved and logged as artifacts to provide insights into model performance.
+   - Final evaluation is performed on the test dataset, logging similar metrics and confusion matrices.
+
+5. **Model Saving:**
+   - The final trained model is logged to MLflow, allowing for version control and later retrieval for inference or further experimentation.
