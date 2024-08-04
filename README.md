@@ -18,7 +18,7 @@ This repository contains my code and analysis for classifying text as either wri
 - **Text Lengths**:There are some large outliers in text length. After adjustments, Austen's texts are slightly longer and more varied.
 
 #### Probability Distribution of Text Lengths by Austen/non-Austen
-(!<img width="961" alt="image" src="https://github.com/user-attachments/assets/70e4a4cc-a43a-4181-b342-f24ef5d8d691">
+<img width="961" alt="image" src="https://github.com/user-attachments/assets/70e4a4cc-a43a-4181-b342-f24ef5d8d691">
 
 *The histogram and overlaid density plots show the distribution of text lengths for Austen and non-Austen classes. Austen's texts tend to be longer on average.*
 
@@ -29,7 +29,8 @@ This repository contains my code and analysis for classifying text as either wri
 - **Performance**: Achieved a high F1 score of 0.989 on the evaluation set, indicating possible data leakage.
 
 #### Model Training and Evaluation Metrics
-![Model Training and Evaluation Metrics](image2.png)
+![Model ![image](https://github.com/user-attachments/assets/edb462ed-927c-4402-ac6b-68941f8bf8ad)
+
 *This plot from MLFlow shows training loss and evaluation metrics over training iterations. A sudden peak in evaluation precision suggests model tuning and potential overfitting concerns.*
 
 ### If I Had More Time
