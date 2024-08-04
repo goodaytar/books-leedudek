@@ -82,10 +82,11 @@ Performed in `evaluate.py`:
 4. **Train the Model**:
    Open up the notebooks/train.ipynb file
 5. **Evaluate the Model**:
-   Visit the MLFlow dashboard, by first starting the server
+   After running the code in the notebooks/train.ipynb file, you can visit the MLFlow dashboard. First run this to start the server
    ```bash
    mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns --host 0.0.0.0 --port 5003
    ```
+   then go to http://localhost:5003 to track the progress of the model being fine tuned
 
 ## Contributing
 
