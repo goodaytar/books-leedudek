@@ -18,7 +18,8 @@ Analysis of the Austen text dataset, exploring characteristics and biases.
 ### The Model
 Training and evaluation of a binary classifier to identify Austen vs. non-Austen text.
 
-- **Model Selection**: Selected a small yet effective model from the Hugging Face MTEB leaderboard.
+- **Model Selection**: Selected small yet effective models from the Hugging Face MTEB leaderboard.
+- **Model Training**: Opted for a verbose method of training as opposed to using a trainer. Made MLFlow tracking easier.
 - **MLflow Tracking**: Used MLflow for neat experiment tracking.
 - **Performance**: Achieved a high F1 score of 0.989 on the evaluation set, indicating possible data leakage.
 
