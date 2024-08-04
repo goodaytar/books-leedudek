@@ -1,96 +1,97 @@
-# Text Analysis of Jane Austen vs. Non-Austen Texts
 
-This repository contains an exploratory data analysis (EDA) notebook focused on distinguishing between texts authored by Jane Austen and non-Austen texts. The analysis leverages a dataset of text paragraphs with labeled authorship to understand linguistic patterns and characteristics that differentiate Austen's writing style.
+# Austen Text Classification
 
-## Table of Contents
+This repository contains the code and analysis related to classifying text as either written by Jane Austen or not. The project involves exploratory data analysis, preprocessing, model training, and evaluation, utilizing machine learning techniques to distinguish Austen's literary style.
 
-1. [Introduction](#introduction)
-2. [Dataset](#dataset)
-3. [Analysis Plan](#analysis-plan)
-4. [Key Findings](#key-findings)
-    - [Duplicates Analysis](#duplicates-analysis)
-    - [Bias Analysis](#bias-analysis)
-    - [Language Analysis](#language-analysis)
-        - [Text Length](#text-length)
-        - [Most Frequent Terms](#most-frequent-terms)
-5. [Training Implementation](#training-implementation)
-6. [Conclusion](#conclusion)
-7. [Usage](#usage)
-8. [Contributing](#contributing)
-9. [License](#license)
+## Contents
 
-## Introduction
+- **Data Analysis**: Analysis of the Austen text dataset, exploring characteristics and biases.
+- **Model Training**: Training of a binary classifier to identify Austen vs. non-Austen text.
+- **Model Evaluation**: Evaluation of the trained model using precision, recall, and F1-score metrics.
 
-This project aims to analyze and understand the stylistic differences between texts written by Jane Austen and other authors. By examining various linguistic features, we aim to identify characteristics that are unique or prevalent in Austen's work.
+## TL;DR
 
-## Dataset
+### The Data
 
-The dataset used in this analysis consists of text paragraphs with binary labels indicating whether the text is by Jane Austen (`1`) or not (`0`). The dataset is sourced from the Gutenberg Project and has been pre-processed for this analysis.
+- **Minimal Duplicates**: Few duplicate entries within the dataset.
+- **Class Imbalance**: Significant bias towards the non-Austen class.
+- **Text Lengths**: Outliers in text length; after adjustments, Austen's texts are slightly longer and more varied.
 
-## Analysis Plan
+#### Probability Distribution of Text Lengths by Austen/non-Austen
+![Probability Distribution of Text Lengths by Austen/non-Austen](image1.png)
+*The histogram and overlaid density plots show the distribution of text lengths for Austen and non-Austen classes. Austen's texts tend to be longer on average.*
 
-The analysis follows these steps:
+### The Model
 
-- **Duplicate Analysis:** Identify and remove duplicate entries within the dataset, especially those that may belong to both Austen and non-Austen categories.
-- **Bias Detection:** Examine the distribution of labels to detect any bias that might influence the model's learning process.
-- **Language Analysis:** Investigate linguistic features, such as text length, frequent terms, verbs, adjectives, and named entities, to uncover stylistic patterns.
+- **Model Selection**: Selected a small yet effective model from the Hugging Face MTEB leaderboard.
+- **MLflow Tracking**: Used MLflow for neat experiment tracking.
+- **Performance**: Achieved a high F1 score of 0.989 on the evaluation set, indicating possible data leakage.
 
-## Key Findings
+#### Model Training and Evaluation Metrics
+![Model Training and Evaluation Metrics](image2.png)
+*This plot from MLFlow shows training loss and evaluation metrics over training iterations. A sudden peak in evaluation precision suggests model tuning and potential overfitting concerns.*
 
-### Duplicates Analysis
+### If I Had More Time
 
-- **Removal of Duplicates:** The dataset contained duplicates, which were identified and removed to ensure the integrity of the analysis.
-- **Dual-Labeled Entries:** Instances where the same text appeared under both labels were scrutinized and addressed.
+- **Clustering for Test Set Selection**: Would implement agglomerative clustering to better manage the dataset split, reducing the risk of data leakage.
+- **Manual Data Inspection**: More thorough manual review of the dataset to identify and correct issues affecting performance.
+- **Code Refactoring**: Organize the code into classes such as `Load`, `Process`, `Analyze` for better modularity and maintenance.
 
-### Bias Analysis
+## Detailed Project Breakdown
 
-- **Label Distribution:** The dataset exhibits a skew towards non-Austen texts, necessitating strategies to balance the dataset for unbiased model training.
+### Data Loading and Preprocessing
 
-### Language Analysis
+Handled by `data.py`, which includes:
 
-#### Text Length
+- **Loading**: Reads text data from a CSV file.
+- **Cleaning**: Standardizes text by removing non-alphabetic characters and converting to lowercase.
+- **Tokenization and Vectorization**: Splits text into words and converts them to numerical data suitable for model input.
+- **Splitting**: Divides data into training and test sets with an 80-20 split.
 
-- Austen's texts generally exhibit a wider range of text lengths compared to non-Austen texts.
-- Both Austen and non-Austen texts are predominantly shorter, with Austen's texts being, on average, 20 words longer.
+### Model Training
 
-#### Most Frequent Terms
+Conducted in `train.py`:
 
-- The analysis revealed distinct vocabularies between Austen and non-Austen texts, leveraging term frequency-inverse document frequency (TF-IDF) and natural language processing tools like SpaCy.
+- **Algorithm**: Uses Logistic Regression for binary classification.
+- **Training**: Fits the model to the training data.
+- **Evaluation**: Assesses model performance using the test set.
+- **Saving**: The trained model is saved for later use.
+- **Experiment Tracking**: MLflow is used to log training and evaluation metrics.
 
-## Training Implementation
+### Model Evaluation
 
-The training implementation involves using a binary classifier to distinguish between texts written by Jane Austen and other authors. The training process is tracked and logged using MLflow, which helps in monitoring model performance and saving key metrics. Below is a detailed breakdown of the training code:
+Performed in `evaluate.py`:
 
-### Setup
+- **Loading**: Loads the trained model.
+- **Reporting**: Generates a detailed classification report.
 
-- **MLflow Configuration:** The experiment is set up using MLflow to track experiments and log model parameters, metrics, and artifacts.
-- **Dependencies:** The implementation utilizes `transformers`, `torch`, and `mlflow.pytorch` for model training and evaluation.
+## Installation and Setup
 
-### Training Loop
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/austen-text-classification.git
+   ```
+2. **Install Dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. **Run Data Preprocessing**:
+   ```bash
+   python data.py
+   ```
+4. **Train the Model**:
+   ```bash
+   python train.py
+   ```
+5. **Evaluate the Model**:
+   ```bash
+   python evaluate.py
+   ```
 
-1. **Initialize Model and Optimizer:**
-   - The model is trained using the AdamW optimizer with a learning rate of `5e-5`.
-   - The loss function used is `nn.BCEWithLogitsLoss` to handle binary classification.
+## Contributing
 
-2. **Training Process:**
-   - The training loop iterates over the number of specified epochs.
-   - For each batch in the training data, the model performs a forward pass to compute the loss.
-   - The backward pass updates the model weights, and metrics are logged at each step using MLflow.
-   - Evaluation metrics (accuracy, precision, recall, F1 score) are computed on the evaluation set at each step and logged to MLflow.
+Contributions are welcome! Please submit a pull request or open an issue for any enhancements or bug fixes.
 
-3. **Learning Rate Scheduler:**
-   - A linear learning rate scheduler with warmup is used to adjust the learning rate throughout training, which can help stabilize training and improve performance.
+## License
 
-4. **Evaluation:**
-   - After each epoch, the model is evaluated on the evaluation dataset.
-   - Confusion matrices are saved and logged as artifacts to provide insights into model performance.
-   - Final evaluation is performed on the test dataset, logging similar metrics and confusion matrices.
-
-5. **Model Saving:**
-   - The final trained model is logged to MLflow, allowing for version control and later retrieval for inference or further experimentation.
-
-## Conclusion
-Sadly, my attempt to impress with a more verbose training loop backfired. There is a bug somewhere meaning that the precision, recall and F1 estimate after each batch is calculating to 0. I haven't had the time to debug. 
-
-In hindsight, I should've just opted to use a huggingface Trainer, with a callback for the MLFlow logging. C'est la vie.
-
+This project is licensed under the MIT License.
