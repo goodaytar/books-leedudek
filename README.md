@@ -31,7 +31,7 @@ This repository contains my code and analysis for classifying text as either wri
 #### Model Training and Evaluation Metrics
 ![Model ![image](https://github.com/user-attachments/assets/edb462ed-927c-4402-ac6b-68941f8bf8ad)
 
-*This plot from MLFlow shows training loss and evaluation metrics over training iterations. A sudden peak in evaluation precision suggests model tuning and potential overfitting concerns.*
+*This plot from MLFlow shows training loss, f1 and precision after each step. The super high precision and f1 has made me suspect some data leakage.*
 
 ### If I Had More Time
 
