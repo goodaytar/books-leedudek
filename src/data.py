@@ -12,24 +12,13 @@ from datasets import Dataset
 from transformers import (
     AutoTokenizer,
     AutoModelForTokenClassification,
-    default_data_collator,
     pipeline
 )
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def balance_dataset_labels(df, ratio=1):
-    max_samples = int(df['austen'].value_counts().min())
-    samples = []
-    for label in df['austen'].unique():
-        try:
-            samples.append(df[df['austen'] == label].sample(max_samples*ratio, replace=False, random_state=42))
-        except:
-            samples.append(df[df['austen'] == label].sample(max_samples, replace=False, random_state=42))
-    return pd.concat(samples)
 
-
-def load_data(file_path='../data/gutenberg-paragraphs.json', clean=False):
+def load_data(file_path:str ='../data/gutenberg-paragraphs.json', clean=False):
     """
     Load dataset from a JSON file.
 
@@ -45,7 +34,8 @@ def load_data(file_path='../data/gutenberg-paragraphs.json', clean=False):
         data = clean_data(data)
     return data
 
-def clean_data(data):
+
+def clean_data(data:pd.DataFrame):
     """
     Clean the data by removing duplicates and outliers.
 
@@ -53,7 +43,7 @@ def clean_data(data):
     - data: DataFrame, the dataset to clean.
 
     Returns:
-    - data_filtered: DataFrame, the cleaned dataset.
+    - data_balanced: DataFrame, the cleaned dataset.
     """
     data.drop_duplicates(subset=['text'], inplace=True)
     data = add_text_lengths_to_df(data)
@@ -65,6 +55,56 @@ def clean_data(data):
     data_filtered.dropna(inplace=True)    
     data_balanced = balance_dataset_labels(data_filtered)
     return data_balanced
+
+
+def balance_dataset_labels(df:pd.DataFrame, ratio:float=1.0):
+    """Balances the dataset by undersampling the overrepresented class.
+    
+    Parameters:
+    - df: DataFrame, the dataset to balance.
+    - ratio: float, the ratio of over represented to under represented class to allow in the sample.
+
+    Returns:
+    - df_balanced: DataFrame, the balanced dataset.
+    """
+
+
+    max_samples = int(df['austen'].value_counts().min())
+    samples = []
+    for label in df['austen'].unique():
+        try:
+            samples.append(df[df['austen'] == label].sample(max_samples*ratio, replace=False, random_state=42))
+        except:
+            samples.append(df[df['austen'] == label].sample(max_samples, replace=False, random_state=42))
+    
+    return pd.concat(samples)
+
+
+
+def split(data, tokenizer=None):
+    """
+    Split data into train, eval, and test sets.
+
+    Parameters:
+    - data: DataFrame, the dataset to split.
+    - preprocess: bool, if True, preprocess the data.
+    - tokenizer: tokenizer object, the tokenizer to use.
+
+    Returns:
+    - train, eval, test: DataLoaders for each split.
+    """
+    train, test = train_test_split(data, test_size=0.2, random_state=42)
+    test, eval = train_test_split(test, test_size=0.5, random_state=42)
+    train = TextDataset(train[['text', 'labels']], tokenizer=tokenizer, max_length=128)
+    eval = TextDataset(eval[['text', 'labels']], tokenizer=tokenizer, max_length=128)
+    test = TextDataset(test[['text', 'labels']][:-1], tokenizer=tokenizer, max_length=128)
+
+    # Create DataLoaders
+    train = DataLoader(train, batch_size=32)
+    eval = DataLoader(eval ,batch_size=32)
+    test = DataLoader(test, batch_size=32)
+
+    return train, eval, test
 
 
 class TextDataset(Dataset):
@@ -108,31 +148,6 @@ class TextDataset(Dataset):
             'labels': torch.tensor(label, dtype=torch.long)
         }
 
-
-def split(data, tokenizer=None):
-    """
-    Split data into train, eval, and test sets.
-
-    Parameters:
-    - data: DataFrame, the dataset to split.
-    - preprocess: bool, if True, preprocess the data.
-    - tokenizer: tokenizer object, the tokenizer to use.
-
-    Returns:
-    - train, eval, test: DataLoader or Dataset, the data splits.
-    """
-    train, test = train_test_split(data, test_size=0.2, random_state=42)
-    test, eval = train_test_split(test, test_size=0.5, random_state=42)
-    train = TextDataset(train[['text', 'labels']], tokenizer=tokenizer, max_length=128)
-    eval = TextDataset(eval[['text', 'labels']], tokenizer=tokenizer, max_length=128)
-    test = TextDataset(test[['text', 'labels']][:-1], tokenizer=tokenizer, max_length=128)
-
-    # Create DataLoaders
-    train = DataLoader(train, batch_size=32)
-    eval = DataLoader(eval ,batch_size=32)
-    test = DataLoader(test, batch_size=32)
-
-    return train, eval, test
 
 def get_language_data(df, label, max_df=0.4, min_df=0.01, k=20):
     """
@@ -186,6 +201,7 @@ def get_most_freq_terms(corpus, max_df=0.4, min_df=0.01, k=20):
     sorted_word_counts = sorted(word_count_dict.items(), key=lambda x: x[1], reverse=True)
     return [term for term, count in sorted_word_counts[:k]]
 
+
 def get_most_freq_verbs(spacy_client, corpus):
     """
     Get the most frequent verbs in a corpus.
@@ -205,6 +221,7 @@ def get_most_freq_verbs(spacy_client, corpus):
     verb_counts = Counter(corpus_verbs)
     return verb_counts.most_common()
 
+
 def get_most_freq_adjectives(spacy_client, corpus):
     """
     Get the most frequent adjectives in a corpus.
@@ -223,6 +240,7 @@ def get_most_freq_adjectives(spacy_client, corpus):
         corpus_adjectives.extend(sample_adjectives)
     adjective_counts = Counter(corpus_adjectives)
     return adjective_counts.most_common()
+
 
 def get_most_freq_names(corpus):
     """
@@ -245,31 +263,6 @@ def get_most_freq_names(corpus):
     entity_counts = Counter(all_entities)
     return entity_counts.most_common()
 
-def less_than_x_words(text, x):
-    """
-    Check if a text has fewer than x words.
-
-    Parameters:
-    - text: str, the text to check.
-    - x: int, the threshold.
-
-    Returns:
-    - bool, True if text has fewer than x words, else False.
-    """
-    return len(text.split()) < x
-
-def more_than_x_words(text, x):
-    """
-    Check if a text has more than x words.
-
-    Parameters:
-    - text: str, the text to check.
-    - x: int, the threshold.
-
-    Returns:
-    - bool, True if text has more than x words, else False.
-    """
-    return len(text.split()) > x
 
 def plot_pdf_length(df, filter_outliers=True, multiplier=1.5):
     """
