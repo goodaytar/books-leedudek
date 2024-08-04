@@ -88,3 +88,9 @@ The training implementation involves using a binary classifier to distinguish be
 
 5. **Model Saving:**
    - The final trained model is logged to MLflow, allowing for version control and later retrieval for inference or further experimentation.
+
+## Conclusion
+Sadly, my attempt to impress with a more verbose training loop backfired. There is a bug somewhere meaning that the precision, recall and F1 estimate after each batch is calculating to 0. I haven't had the time to debug. 
+
+In hindsight, I should've just opted to use a huggingface Trainer, with a callback for the MLFlow logging. C'est la vie.
+
