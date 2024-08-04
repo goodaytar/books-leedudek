@@ -36,7 +36,7 @@ This repository contains my code and analysis for classifying text as either wri
 
 - **Clustering for Test Set Selection**: Would implement agglomerative clustering to better manage the dataset split, reducing the risk of data leakage.
 - **Manual Data Inspection**: More thorough manual review of the dataset to identify and correct issues affecting performance.
-- **Code Refactoring**: Organize the code into classes such as `Load`, `Process`, `Analyze` for better modularity and maintenance.
+- **Code Refactoring**: Organise the code into classes such as `Load`, `Process`, `Analyse` for better modularity and maintenance.
 
 ## Detailed Project Breakdown
 
@@ -45,8 +45,8 @@ This repository contains my code and analysis for classifying text as either wri
 Handled by `data.py`, which includes:
 
 - **Loading**: Reads text data from a CSV file.
-- **Cleaning**: Standardizes text by removing non-alphabetic characters and converting to lowercase.
-- **Tokenization and Vectorization**: Splits text into words and converts them to numerical data suitable for model input.
+- **Cleaning**: Standardises text by removing non-alphabetic characters and converting to lowercase.
+- **Tokenisation and Vectorisation**: Splits text into words and converts them to numerical data suitable for model input.
 - **Splitting**: Divides data into training and test sets with an 80-20 split.
 
 ### Model Training
