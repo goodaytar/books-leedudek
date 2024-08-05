@@ -37,7 +37,7 @@ Training and evaluation of a binary classifier to identify Austen vs. non-Austen
 
 1. **Clone the Repository**:
    ```bash
-   git clone [https://github.com/yourusername/austen-text-classification.git](https://github.com/goodaytar/recruitment-ml-leedudek.git)
+   git clone https://github.com/goodaytar/recruitment-ml-leedudek.git
    ```
 2. **Install Dependencies**:
    ```bash
